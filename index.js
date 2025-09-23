@@ -47,3 +47,47 @@ function countOccurrences2(array, num) {
 
 
 // console.log(countOccurrences2([1, 2, 2, 3, 4, 2], 2));
+
+// Task #3
+
+function areAnagrams(str1, str2) {
+    const normalize1 = str1.toLowerCase().split('').sort().join('');
+    const normalize2 = str2.toLowerCase().split('').sort().join('');
+
+    return normalize1 === normalize2;
+
+}
+
+// console.log(areAnagrams("listen", "silent")); // true
+// console.log(areAnagrams("hello", "world")); // false
+
+
+// Task #4
+
+function getInitials(str) {
+    return str.split(' ').map(word => word.charAt(0)).join('');
+}
+// console.log(getInitials("Front End Development")); // "FED"
+
+// Task #5
+
+function countLetters(str) {
+
+    const letterCount = {};
+
+    for (let i = 0; i < str.length; i++) {
+
+        if (str[i] !== ' ') {
+            if (letterCount[str[i]]) {
+                letterCount[str[i]]++;
+            } else {
+                letterCount[str[i]] = 1;
+            }
+        }
+
+    }
+
+    return letterCount;
+}
+
+// console.log(countLetters("Hello World"));
