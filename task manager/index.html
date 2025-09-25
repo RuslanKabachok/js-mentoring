@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="/task manager/index.css">
+</head>
+<body>
+    <h1>Task Manager</h1>
+
+<form action="submit">
+<label for="description">Опис завдання: </label>
+<input type="text" name="description" id="description" required minlength="3">
+
+<label for="status">Статус</label>
+<select name="status" id="status">
+    <option value="нове">Нове</option>
+    <option value="в процесі">В процесі</option>
+    <option value="виконано">Виконано</option>
+</select>
+
+<label for="priority">Пріоритет</label>
+<select name="priority" id="priority">
+    <option value="високий">Високий</option>
+    <option value="середній">Середній</option>
+    <option value="низький">Низький</option>
+</select>
+
+<button type="submit" id="actionBtn">Додати завдання</button>
+</form>
+
+<h2>Список завдань:</h2> 
+
+<ul id="taskList"> 
+</ul>
+
+    <script src="/task manager/index.js"></script>
+</body>
+</html>
