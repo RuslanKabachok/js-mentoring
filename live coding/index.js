@@ -1,13 +1,21 @@
 // Task #1
 
 function isIncreasing(array) {
+
+    if (!Array.isArray(array)) {
+        throw new TypeError('Аргument must be an array');
+    }
+
+    if (array.length === 0) {
+        return true;
+    }
+
     for (let i = 1; i < array.length; i++) {
         if (array[i] <= array[i - 1]) {
             return false;
         }
     }
     return true;
-
 }
 
 // console.log(isIncreasing([1, 2, 3, 4]));
@@ -55,7 +63,6 @@ function areAnagrams(str1, str2) {
     const normalize2 = str2.toLowerCase().split('').sort().join('');
 
     return normalize1 === normalize2;
-
 }
 
 // console.log(areAnagrams("listen", "silent"));
