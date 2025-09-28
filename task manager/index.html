@@ -30,7 +30,17 @@
 <button type="submit" id="actionBtn">Додати завдання</button>
 </form>
 
-<h2>Список завдань:</h2> 
+
+<p id="noTasksMsg" class="hide">Немає задач для сортування</p>
+<div class="sorting-btn-container">
+    <h2>Сортувати за пріоритетом: </h2>
+    <select name="sort" id="sort">
+        <option value="за зростанням">за зростанням</option>
+        <option value="за спаданням">за спаданням</option>
+    </select>
+</div>
+
+<h3>Список завдань:</h3> 
 
 <ul id="taskList"> 
 </ul>
