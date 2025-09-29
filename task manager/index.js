@@ -59,33 +59,57 @@ function renderTasks(tasks) {
 
     tasks.forEach(task => {
         const li = document.createElement('li');
-        li.dataset.id = task.id;
-        li.innerHTML = `
-            <p>${task.description}</p>
-            <select class="status-select" value="${task.value}">
-            <option value="нове" ${task.status === 'нове' ? 'selected' : ''}>Нове</option>
-            <option value="в процесі" ${task.status === 'в процесі' ? 'selected' : ''}>В процесі</option>
-            <option value="виконано" ${task.status === 'виконано' ? 'selected' : ''}>Виконано</option>
-            </select>
-            <select class="priority-select" value="${task.priority}">
-            <option value="високий" ${task.priority === 'високий' ? 'selected' : ''}>Високий</option>
-            <option value="середній" ${task.priority === 'середній' ? 'selected' : ''}>Середній</option>
-            <option value="низький" ${task.priority === 'низький' ? 'selected' : ''}>Низький</option>
-            </select>     
-            <button class="delete-btn">Видалити</button>`;
+        li.dataset.id = String(task.id);
+
+        const p = document.createElement('p');
+        p.textContent = task.description;
+
+        const select = document.createElement('select');
+        select.className = 'status-select';
+
+        const statuses = ['нове', 'в процесі', 'виконано'];
+        statuses.forEach(s => {
+            const opt = document.createElement('option');
+            opt.value = s;
+            opt.textContent = s === 'нове' ? 'Нове' : (s === 'в процесі' ? 'В процесі' : 'Виконано');
+            if (task.status === s) opt.selected = true;
+            select.appendChild(opt);
+        });
+
+        const priority = document.createElement('select');
+        priority.className = 'status-select';
+
+        const priorityStatuses = ['високий', 'середній', 'низький'];
+        priorityStatuses.forEach(s => {
+            const opt = document.createElement('option');
+            opt.value = s;
+            opt.textContent = s === 'високий' ? 'Високий' : s === 'середній' ? 'Середній' : 'Низький';
+            if (task.priority === s) opt.selected = true;
+            priority.appendChild(opt);
+        });
+
+        const delBtn = document.createElement('button');
+        delBtn.className = 'delete-btn';
+        delBtn.type = 'button';
+        delBtn.textContent = 'Видалити';
+
+        li.appendChild(p);
+        li.appendChild(select);
+        li.appendChild(priority);
+        li.appendChild(delBtn);
+
         taskList.appendChild(li);
     });
 
-    if (taskList.children.length === 0) {
-        sortContainer.classList.add('hide');
+    if (tasks.length === 0) {
+        sortSelect.classList.add('hide');
         noTasksMsg.classList.remove('hide');
-        listHeading.classList.add('hide');
     } else {
-        sortContainer.classList.remove('hide');
+        sortSelect.classList.remove('hide');
         noTasksMsg.classList.add('hide');
-        listHeading.classList.remove('hide');
     }
 }
+
 
 taskList.addEventListener('change', (e) => {
     const id = e.target.closest('li').dataset.id;
