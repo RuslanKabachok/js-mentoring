@@ -1,0 +1,145 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f7f9fc;
+  color: #333;
+  margin: 0;
+  padding: 20px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2c3e50;
+}
+
+form[id="form"] {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  max-width: 320px;
+  margin: 0 auto 40px auto;
+  padding: 20px;
+
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+label {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+input, select, button {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input {
+    width: 94%;
+}
+
+button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+p {
+    font-weight: bold;
+    margin-top: 20px;
+    text-align: center;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+ul li {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  border-radius: 4px;
+  font-size: 14px;
+  max-width: 500px;
+}
+
+table {
+  width: 300px;
+  margin: 20px auto;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-size: 14px;
+}
+
+table tr:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
+table tr:last-child td {
+  font-weight: bold;
+  background-color: #eaf6ff;
+}
+
+.lists {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 20px auto;
+  max-width: 900px;
+}
+
+.list-block {
+  flex: 1;
+  text-align: center;
+}
+
+.list-block ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.list-block ul li {
+  width: 100%;
+  max-width: 350px;
+}
+
+#expenses li {
+  border-left: 6px solid #e74c3c;
+  background: #fff5f5;
+  color: #c0392b;
+}
+
+#income li {
+  border-left: 6px solid #27ae60;
+  background: #f3fff7;
+  color: #1e8449;
+}
+

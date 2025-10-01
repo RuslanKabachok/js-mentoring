@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget calculator</title>
+    <link rel="stylesheet" href="/calculator/index.css">
+</head>
+<body>
+    
+<h1 class="title">Budget calculator</h1>
+
+<form id="form">
+    <label for="sum">Введіть суму:</label>
+    <input type="number" name="sum" id="sum">
+
+    <label for="transactionType">Вкажіть тип транзакції</label>
+    <select name="transactionType" id="transactionType">
+        <option value="витрати">Витрати</option>
+        <option value="дохід">Доходи</option>
+    </select>
+
+    <label for="category">Оберіть категорію</label>
+    <select name="category" id="category">
+        <option value="продукти">Продукти</option>
+        <option value="квартплата">Квартплата</option>
+        <option value="комуналка">Комунальні платежі</option>
+        <option value="підписки">Підписки</option>
+        <option value="спортзал">Спортзал</option>
+    </select>
+
+    <label for="date">Вкажіть дату:</label>
+    <input type="date" id="date">
+
+    <button type="submit">Зберегти</button>
+</form>
+
+<div class="lists">
+    <div class="list-block">
+        <p>Список витрат</p>
+        <ul id="expenses"></ul>
+    </div>
+
+    <div class="list-block">
+        <p>Список доходів</p>
+        <ul id="income"></ul>
+    </div>
+</div>
+
+<table>
+  <tr><td>Доходи</td><td id="totalIncome"></td></tr>
+  <tr><td>Витрати</td><td id="totalExpenses"></td></tr>
+  <tr><td><strong>Баланс</strong></td><td id="balance"></td></tr>
+</table>
+
+
+    <script src="/calculator/index.js"></script>
+</body>
+</html>
