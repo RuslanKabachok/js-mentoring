@@ -143,3 +143,6 @@ table tr:last-child td {
   color: #1e8449;
 }
 
+.edit-btn {
+  margin-top: 15px;
+}
