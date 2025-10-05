@@ -1,13 +1,21 @@
 // Task #1
 
 function isIncreasing(array) {
+
+    if (!Array.isArray(array)) {
+        throw new TypeError('Аргument must be an array');
+    }
+
+    if (array.length === 0) {
+        return true;
+    }
+
     for (let i = 1; i < array.length; i++) {
         if (array[i] <= array[i - 1]) {
             return false;
         }
     }
     return true;
-
 }
 
 // console.log(isIncreasing([1, 2, 3, 4]));
@@ -55,11 +63,10 @@ function areAnagrams(str1, str2) {
     const normalize2 = str2.toLowerCase().split('').sort().join('');
 
     return normalize1 === normalize2;
-
 }
 
-// console.log(areAnagrams("listen", "silent")); // true
-// console.log(areAnagrams("hello", "world")); // false
+// console.log(areAnagrams("listen", "silent"));
+// console.log(areAnagrams("hello", "world")); 
 
 
 // Task #4
@@ -67,7 +74,7 @@ function areAnagrams(str1, str2) {
 function getInitials(str) {
     return str.split(' ').map(word => word.charAt(0)).join('');
 }
-// console.log(getInitials("Front End Development")); // "FED"
+// console.log(getInitials("Front End Development"));
 
 // Task #5
 
@@ -198,4 +205,4 @@ function findPair(arr, sum) {
     return null;
 }
 
-// console.log(findPair([1, 2, 3, 4, 5, 6, 7, 8], 8)); 
+// console.log(findPair([1, 2, 3, 4, 5, 6, 7, 8], 8));
