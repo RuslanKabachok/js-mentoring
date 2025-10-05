@@ -10,8 +10,11 @@ const totalExpensesEl = document.getElementById('totalExpenses');
 const totalIncomeEl = document.getElementById('totalIncome');
 const transactionBlock = document.querySelector('.lists');
 let lastId = 0;
-
 let entries = loadTransactions();
+const reportType = document.getElementById('reportType');
+const reportValue = document.getElementById('reportValue');
+const reportList = document.getElementById('reportList');
+const reportBtn = document.getElementById('generateReport');
 
 renderEntries(entries);
 calculateTotals(entries);
@@ -47,8 +50,14 @@ function renderEntries(entries) {
         const editBtn = document.createElement('button');
         editBtn.textContent = 'Редагувати';
         editBtn.className = 'edit-btn';
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Видалити';
+        deleteBtn.className = 'delete-btn';
+
         li.appendChild(span);
         li.appendChild(editBtn);
+        li.appendChild(deleteBtn);
 
         if (element.type === 'витрати') {
             expenses.appendChild(li);
@@ -124,8 +133,8 @@ function createEntry(amount, type, category, date, id = null) {
 
 transactionBlock.addEventListener('click', (e) => {
     if (e.target.classList.contains('edit-btn')) {
-        const id = e.target.parentElement.dataset.id;
-        const entry = entries.find(el => el.id == id);
+        const id = e.target.closest('li').dataset.id;
+        const entry = entries.find(el => el.id === id);
         if (!entry) {
             console.warn('Entry not found for id', id);
             return;
@@ -157,4 +166,43 @@ transactionBlock.addEventListener('click', (e) => {
         renderEntries(entries);
         calculateTotals(entries);
     }
+
+    if (e.target.classList.contains('delete-btn')) {
+        const id = e.target.closest('li').dataset.id;
+        const ok = confirm('Ви впевнені, що хочете видалити цей запис?');
+        if (!ok) return;
+
+        entries = entries.filter(el => el.id != id);
+        saveTransactions();
+        renderEntries(entries);
+        calculateTotals(entries);
+        return;
+    }
 });
+
+reportBtn.addEventListener('click', (e) => {
+    reportList.innerHTML = '';
+    let filtered = []
+
+    if (reportType.value === "category") {
+        filtered = entries.filter(enrty => enrty.category.toLowerCase().trim() === reportValue.value.toLowerCase().trim());
+    } else if (reportType.value === "month") {
+        filtered = entries.filter(entry => entry.date.startsWith(reportValue.value));
+    }
+
+    if (filtered.length === 0) {
+        reportList.innerHTML = '<li>Нічого не знайдено 😕</li>';
+        return;
+    }
+
+    filtered.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.amount} грн | ${item.category} | ${item.date}`;
+        reportList.appendChild(li);
+    });
+
+
+    const total = filtered.reduce((acc, item) => acc + Number(item.amount), 0);
+    document.getElementById('reportTotal').textContent = `Загальна сума: ${total} грн`;
+
+})

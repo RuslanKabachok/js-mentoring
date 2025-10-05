@@ -53,6 +53,20 @@
     <tr><td><strong>Баланс</strong></td><td id="balance"></td></tr>
 </table>
 
+<div id="report-section">
+    <h2>Звіт</h2>
+    <label for="reportType">Тип звіту:</label>
+    <select id="reportType">
+        <option value="category">За категорією</option>
+        <option value="month">За місяцем</option>
+    </select>
+
+    <input type="text" id="reportValue" placeholder="Введіть категорію або місяць (наприклад, 2025-10)" />
+    <button id="generateReport">Згенерувати</button>
+
+    <ul id="reportList"></ul>
+    <p id="reportTotal"></p>
+</div>
 
     <script src="/calculator/index.js"></script>
 </body>
