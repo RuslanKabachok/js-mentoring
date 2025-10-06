@@ -15,6 +15,12 @@ const reportType = document.getElementById('reportType');
 const reportValue = document.getElementById('reportValue');
 const reportList = document.getElementById('reportList');
 const reportBtn = document.getElementById('generateReport');
+const editModal = document.getElementById('editModal');
+const editForm = document.getElementById('editForm');
+const editAmount = document.getElementById('editAmount');
+const editCategory = document.getElementById('editCategory');
+const editCancel = document.getElementById('editCancel');
+let editingId = null;
 
 renderEntries(entries);
 calculateTotals(entries);
@@ -132,43 +138,16 @@ function createEntry(amount, type, category, date, id = null) {
 }
 
 transactionBlock.addEventListener('click', (e) => {
-    if (e.target.classList.contains('edit-btn')) {
-        const id = e.target.closest('li').dataset.id;
-        const entry = entries.find(el => el.id === id);
-        if (!entry) {
-            console.warn('Entry not found for id', id);
-            return;
-        }
+    const target = e.target;
 
-        const newAmount = prompt("Введіть нову суму:", entry.amount);
-        const newCategory = prompt("Введіть нову категорію:", entry.category);
-
-        if (newAmount !== null) {
-            const num = Number(newAmount);
-            if (!isNaN(num) && num > 0) {
-                entry.updateAmount(num);
-            } else {
-                alert("Сума має бути додатнім числом!");
-            }
-        }
-
-        const allowedCategories = ["продукти", "квартплата", "комуналка", "підписки", "спортзал"];
-
-        if (newCategory !== null) {
-            if (allowedCategories.includes(newCategory)) {
-                entry.updateCategory(newCategory);
-            } else {
-                alert("Категорія має бути з дозволеного списку: " + allowedCategories.join(", "));
-            }
-        }
-
-        saveTransactions();
-        renderEntries(entries);
-        calculateTotals(entries);
+    if (target.classList.contains('edit-btn')) {
+        const id = target.closest('li').dataset.id;
+        openEditModal(id);
+        return;
     }
 
-    if (e.target.classList.contains('delete-btn')) {
-        const id = e.target.closest('li').dataset.id;
+    if (target.classList.contains('delete-btn')) {
+        const id = target.closest('li').dataset.id;
         const ok = confirm('Ви впевнені, що хочете видалити цей запис?');
         if (!ok) return;
 
@@ -176,9 +155,9 @@ transactionBlock.addEventListener('click', (e) => {
         saveTransactions();
         renderEntries(entries);
         calculateTotals(entries);
-        return;
     }
 });
+
 
 reportBtn.addEventListener('click', (e) => {
     reportList.innerHTML = '';
@@ -206,3 +185,58 @@ reportBtn.addEventListener('click', (e) => {
     document.getElementById('reportTotal').textContent = `Загальна сума: ${total} грн`;
 
 })
+
+function openEditModal(id) {
+    const entry = entries.find(e => e.id === id);
+    if (!entry) return;
+    editingId = id;
+    editAmount.value = entry.amount;
+    editCategory.value = entry.category;
+    editModal.classList.remove('hide');
+
+    setTimeout(() => editAmount.focus(), 0);
+}
+
+function closeEditModal() {
+    editModal.classList.add('hide');
+    editingId = null;
+    editForm.reset();
+}
+
+editForm.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+
+    const amountVal = Number(editAmount.value);
+    const categoryVal = editCategory.value.trim();
+
+    const allowedCategories = ["продукти", "квартплата", "комуналка", "підписки", "спортзал"];
+    if (isNaN(amountVal) || amountVal <= 0) {
+        alert('Сума має бути додатнім числом');
+        editAmount.focus();
+        return;
+    }
+    if (!allowedCategories.includes(categoryVal.toLowerCase())) {
+        alert('Категорія не з дозволеного списку');
+        editCategory.focus();
+        return;
+    }
+
+    const entry = entries.find(e => e.id === editingId);
+    if (!entry) return closeEditModal();
+
+    entry.updateAmount(amountVal);
+    entry.updateCategory(categoryVal);
+
+    saveTransactions();
+    renderEntries(entries);
+    calculateTotals(entries);
+    closeEditModal();
+});
+
+editCancel.addEventListener('click', closeEditModal);
+editModal.addEventListener('click', (e) => {
+    if (e.target.dataset.close === 'true' || e.target === editModal.querySelector('.modal__backdrop')) closeEditModal();
+});
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !editModal.classList.contains('hide')) closeEditModal();
+});

@@ -68,6 +68,28 @@
     <p id="reportTotal"></p>
 </div>
 
+<div id="editModal" class="hide modal">
+    <div class="modal__backdrop" data-close="true"></div>
+
+    <div class="modal__content">
+    <h3>Редагування транзакції</h3>
+    <form id="editForm">
+        <label for="editAmount">Сума:</label>
+        <input type="number" id="editAmount" required />
+
+        <label for="editCategory">Категорія:</label>
+        <input type="text" id="editCategory" required />
+
+        <div class="modal__buttons">
+        <button type="submit">Зберегти</button>
+        <button type="button" id="editCancel" data-close="true">Скасувати</button>
+    </div>
+    </form>
+</div>
+</div>
+
+
+
     <script src="/calculator/index.js"></script>
 </body>
 </html>
