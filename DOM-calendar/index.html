@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+
+<h1 class="title">Календар 2025</h1>
+
+<div class="calendar-header">
+    <button id="prevMonth">←</button>
+    <h2 id="currentMonth">Жовтень 2025</h2>
+    <button id="nextMonth">→</button>
+</div>
+
+<div class="calendar-grid">
+    <div class="weekdays">
+        <div>Пн</div>
+        <div>Вт</div>
+        <div>Ср</div>
+        <div>Чт</div>
+        <div>Пт</div>
+        <div>Сб</div>
+        <div>Нд</div>
+    </div>
+    
+    <div class="days" id="calendarDays"></div>
+</div>
+
+<div class="events-panel">
+    <h3 id="selectedDate">Виберіть дату</h3>
+    
+    <form id="eventForm">
+        <input type="text" id="eventInput" placeholder="Назва події" required>
+        <button type="submit">Додати подію</button>
+    </form>
+    
+    <ul id="eventsList"></ul>
+</div>
+
+    <script src="./index.js"></script>
+</body>
+</html>
