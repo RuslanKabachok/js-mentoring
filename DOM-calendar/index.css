@@ -1,0 +1,99 @@
+.title {
+    text-align: center;
+}
+
+.calendar-header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    margin-bottom: 50px;
+    border: 1px solid black;
+}
+
+.weekdays{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    margin-bottom: 50px;
+    border: 1px solid black;
+}
+
+.events-panel{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+}
+
+.calendar-grid {
+    max-width: 800px;
+    margin: 0 auto 30px;
+}
+
+.weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #f0f0f0;
+    font-weight: bold;
+    text-align: center;
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    padding: 10px;
+}
+
+.day {
+    padding: 15px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.day:hover {
+    background: #e0e0e0;
+}
+
+.day.selected {
+    background: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+.day.has-events {
+    background: #fff3cd;
+    position: relative;
+}
+
+.day.has-events::after {
+    content: '•';
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    color: #ff5722;
+    font-size: 20px;
+}
+
+.delete-btn {
+    background: red;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background: darkred;
+    color: white;
+}
