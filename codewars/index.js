@@ -123,9 +123,6 @@ function betterThanAverage(classPoints, yourPoints) {
     return yourPoints > average;
 }
 
-const rps = (p1, p2) => {
-};
-
 function rps(p1, p2) {
 
     if (p1 === p2) {
@@ -140,3 +137,37 @@ function rps(p1, p2) {
 
     return "Player 2 won!";
 }
+
+function countPositivesSumNegatives(input) {
+
+    let minor = 0;
+    let major = 0;
+
+    if (!input || input.length === 0) {
+        return []
+    }
+
+    for (let i = 0; i < input.length; i++) {
+        const element = input[i];
+
+        if (element > 0) {
+            major += 1;
+        } else if (element < 0) {
+            minor += element;
+        }
+
+    }
+    return [major, minor];
+}
+
+function countBy(x, n) {
+    let z = [];
+
+    for (let i = 1; i <= n; i++) {
+        z.push(i * x)
+    }
+
+    return z;
+}
+
+console.log(countBy(2, 10));
