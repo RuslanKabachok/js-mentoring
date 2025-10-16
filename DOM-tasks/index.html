@@ -7,15 +7,24 @@
 <link rel="stylesheet" href="./index.css">
 </head>
 <body>
-    <h1>Task Manager</h1>
+<h1>Task Manager</h1>
 
-<form action="submit">
-<label for="description">Опис завдання: </label>
-<input type="text" name="description" id="description" required minlength="3">
+<form id="taskForm">
+    <label for="description">Опис завдання: </label>
+    <input type="text" name="description" id="description" required minlength="3" placeholder="Введіть опис завдання">
 
-
-<button type="submit" id="actionBtn">Додати завдання</button>
+    <button type="submit" id="actionBtn">Додати завдання</button>
 </form>
+
+<div class="filters">
+    <button class="filter-btn active" data-filter="all">Всі завдання</button>
+    <button class="filter-btn" data-filter="completed">Виконані</button>
+    <button class="filter-btn" data-filter="active">Активні</button>
+</div>
+
+<h1>Task list:</h1>
+
+<ul id="taskList"></ul>
     
     <script src="./index.js"></script>
 </body>
