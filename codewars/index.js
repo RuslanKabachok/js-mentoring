@@ -170,4 +170,20 @@ function countBy(x, n) {
     return z;
 }
 
-console.log(countBy(2, 10));
+function doubleChar(str) {
+    return str.split('').map(char => char += char).join('');
+}
+
+function opposite(number) {
+    if (number > 0) {
+        return number * -1;
+    } else {
+        return -number;
+    }
+}
+
+function validatePIN(pin) {
+    const result = pin.split('').every(char => char >= '0' && char <= '9');
+
+    return (pin.length === 4 || pin.length === 6) && result;
+}
