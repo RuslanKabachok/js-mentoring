@@ -1,7 +1,6 @@
 const form = document.getElementById('imageForm');
 const imgLink = document.getElementById('img-link');
 const imgDescr = document.getElementById('img-description');
-const btn = document.querySelector('button[type="submit"]')
 const gallery = document.querySelector('.gallery');
 const lightBox = document.querySelector('.lightbox');
 const prevBtn = document.getElementById('prev');
@@ -10,6 +9,15 @@ let imgGallery = loadGallery();
 let currentIndex = 0;
 
 renderGallery();
+
+function isValidUrl(value) {
+    try {
+        const u = new URL(value);
+        return u.protocol === 'http:' || u.protocol === 'https:';
+    } catch {
+        return false;
+    }
+}
 
 function renderGallery() {
     gallery.innerHTML = '';
@@ -27,7 +35,6 @@ function renderGallery() {
 
         gallery.appendChild(item);
     });
-    saveGallery();
 }
 
 form.addEventListener('submit', (e) => {
@@ -38,6 +45,12 @@ form.addEventListener('submit', (e) => {
         return;
     }
 
+    if (!isValidUrl(imgLink.value)) {
+        alert('Введіть коректне посилання на зображення (http або https).');
+        return;
+    }
+
+
     const image = {
         id: Date.now(),
         url: imgLink.value,
@@ -45,6 +58,7 @@ form.addEventListener('submit', (e) => {
     }
 
     imgGallery.push(image);
+    saveGallery();
     form.reset();
     renderGallery();
 })
@@ -73,7 +87,20 @@ document.querySelector('#close').addEventListener('click', () => {
     lightBox.classList.add('hide');
 })
 
+lightBox.addEventListener('click', (e) => {
+    if (e.target === lightBox) lightBox.classList.add('hide');;
+});
+
+document.addEventListener('keydown', (e) => {
+    if (lightBox.classList.contains('hide')) return;
+    if (e.key === 'Escape') lightBox.classList.add('hide');;
+    if (e.key === 'ArrowRight') nextBtn.click();
+    if (e.key === 'ArrowLeft') prevBtn.click();
+});
+
 nextBtn.addEventListener('click', (e) => {
+    if (!imgGallery.length) return;
+
     currentIndex = (currentIndex + 1) % imgGallery.length;
 
     document.getElementById('lightboxImg').src = imgGallery[currentIndex].url;
