@@ -39,3 +39,135 @@ function lovefunc(flower1, flower2) {
         return false
     } else { return true }
 }
+
+function fakeBin(x) {
+    let result = '';
+
+    for (let i = 0; i < x.length; i++) {
+        const element = x[i];
+
+        if (element < 5) {
+            result += '0'
+        } else {
+            result += '1'
+        }
+    }
+    return result;
+}
+
+function boolToWord(bool) {
+    return bool ? "Yes" : "No"
+}
+
+function summation(num) {
+    let result = 0;
+
+    for (let i = 1; i <= num; i++) {
+        result += i;
+    }
+    return result;
+}
+
+function findAverage(array) {
+
+    if (array.length == 0) {
+        return 0;
+    }
+
+    let sum = 0;
+
+    for (let i = 0; i < array.length; i++) {
+        const element = array[i];
+        sum += element;
+    }
+
+    return sum / array.length;
+}
+
+function litres(time) {
+    return Math.floor(time * 0.5);
+}
+
+Object.defineProperty(
+    String.prototype,
+    'toJadenCase',
+    {
+        value:
+            function toJadenCase() {
+                return this;
+            }
+    }
+);
+
+String.prototype.toJadenCase = function () {
+    const words = this.split(' ');
+
+    const capitalized = words.map(word => {
+        return word[0].toUpperCase() + word.slice(1);
+    });
+
+    return capitalized.join(' ');
+};
+
+function betterThanAverage(classPoints, yourPoints) {
+    let sum = 0;
+
+    for (let i = 0; i < classPoints.length; i++) {
+        sum += classPoints[i];
+    }
+
+    sum += yourPoints;
+
+    const average = sum / (classPoints.length + 1);
+
+    return yourPoints > average;
+}
+
+function rps(p1, p2) {
+
+    if (p1 === p2) {
+        return "Draw!";
+    }
+
+    if ((p1 === "rock" && p2 === 'scissors') ||
+        (p1 === "scissors" && p2 === 'paper') ||
+        (p1 === "paper" && p2 === "rock")) {
+        return "Player 1 won!";
+    }
+
+    return "Player 2 won!";
+}
+
+function countPositivesSumNegatives(input) {
+
+    let minor = 0;
+    let major = 0;
+
+    if (!input || input.length === 0) {
+        return []
+    }
+
+    for (let i = 0; i < input.length; i++) {
+        const element = input[i];
+
+        if (element > 0) {
+            major += 1;
+        } else if (element < 0) {
+            minor += element;
+        }
+
+    }
+    return [major, minor];
+}
+
+function countBy(x, n) {
+    let z = [];
+
+    for (let i = 1; i <= n; i++) {
+        z.push(i * x)
+    }
+
+    return z;
+}
+
+console.log(countBy(2, 10));
