@@ -1,4 +1,5 @@
-let contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+const STORAGE_KEY = 'contacts';
+let contacts = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 let editingId = null;
 
 const contactForm = document.getElementById('contactForm');
@@ -14,7 +15,7 @@ contactForm.addEventListener('submit', (e) => {
 
     if (editingId === null) {
         const newContact = {
-            id: Date.now(),
+            id: crypto.randomUUID(),
             name: nameInput.value,
             phone: numberInput.value,
             email: emailInput.value,
@@ -32,7 +33,7 @@ contactForm.addEventListener('submit', (e) => {
         submitBtn.textContent = 'Додати контакт';
     }
 
-    localStorage.setItem('contacts', JSON.stringify(contacts));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(contacts));
 
     renderContacts();
     contactForm.reset();
@@ -94,11 +95,20 @@ const editContact = (id) => {
 const deleteContact = (id) => {
     contacts = contacts.filter(c => c.id !== id);
 
-    localStorage.setItem('contacts', JSON.stringify(contacts));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(contacts));
     renderContacts();
 }
 
-searchInput.addEventListener('input', (e) => {
+function debounce(func, delay) {
+    let timeoutId;
+
+    return function (...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func(...args), delay);
+    };
+}
+
+searchInput.addEventListener('input', debounce((e) => {
     const query = searchInput.value.toLowerCase().trim();
 
     const filteredContacts = contacts.filter(c => {
@@ -106,6 +116,6 @@ searchInput.addEventListener('input', (e) => {
     });
 
     renderContacts(filteredContacts);
-})
+}, 300))
 
 renderContacts();
