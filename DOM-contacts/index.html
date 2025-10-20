@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts journal</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <main>
+        <h1 class="title">Contacts journal</h1>
+
+        <form id="contactForm">
+            <label for="contactName">Імʼя</label>
+            <input type="text" name="name" id="contactName" placeholder="Введіть імʼя" required minlength="2">
+
+            <label for="contactNumber">Номер телефону</label>
+            <input type="tel" name="number" id="contactNumber" placeholder="Введіть номер +38 (099) 123-45-67" required pattern="[\d\s()+-]{7,}">
+
+            <label for="contactEmail">Ел. пошта</label>
+            <input type="email" name="email" id="contactEmail" placeholder="Введіть ел. пошту">
+
+            <button type="submit">Додати контакт</button>
+        </form>
+    
+        <input type="search" id="searchInput" placeholder="Шукати">
+
+        <ul id="contactList"></ul>
+    </main>
+
+    <script src="./index.js"></script>
+</body>
+</html>
