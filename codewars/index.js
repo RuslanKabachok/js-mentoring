@@ -170,4 +170,48 @@ function countBy(x, n) {
     return z;
 }
 
-console.log(countBy(2, 10));
+function doubleChar(str) {
+    return str.split('').map(char => char += char).join('');
+}
+
+function opposite(number) {
+    if (number > 0) {
+        return number * -1;
+    } else {
+        return -number;
+    }
+}
+
+function validatePIN(pin) {
+    const result = pin.split('').every(char => char >= '0' && char <= '9');
+
+    return (pin.length === 4 || pin.length === 6) && result;
+}
+
+const makeUpperCase = str => str.toUpperCase();
+
+const invert = (arr) => {
+    return arr.map(num => -num);
+}
+
+const feast = (beast, dish) => {
+    return beast.charAt(0) === dish.charAt(0) && beast.charAt(beast.length - 1) === dish.charAt(dish.length - 1);
+};
+
+const reverseWords = (str) => {
+    return str.split(' ').map(word => word === '' ? word : word.split('').reverse().join('')).join(' ');
+}
+
+const descendingOrder = (number) => {
+    return Number(number.toString().split('').sort((a, b) => b - a).join(''));
+}
+
+const sumTwoSmallestNumbers = (numbers) => {
+    const sorted = numbers.sort((a, b) => a - b);
+    return sorted[0] + sorted[1];
+}
+
+const findShort = (str) => {
+    const result = str.split(' ').map(w => w.length);
+    return Math.min(...result);
+}
