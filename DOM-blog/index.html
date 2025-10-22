@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./index.css">
+    <title>Blog</title>
+</head>
+<body>
+    
+    <main>
+        <form id="commentForm">
+            <label for="author">Введіть ваш нікнейм:</label>
+            <input type="text" name="author" id="author" required minlength="3" placeholder="Ваш нікнейм">
+
+            <label for="comment">Введіть ваш коментар:</label>
+            <textarea id="comment" required minlength="3" placeholder="Ваш коментар" rows="3"></textarea>
+
+            <button type="submit" id="actionBtn">Опублікувати коментар</button>
+        </form>
+
+        <ul id="commentList"></ul>
+    </main>
+
+
+    <script src="./index.js"></script>
+</body>
+</html>
