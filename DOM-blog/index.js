@@ -11,11 +11,27 @@ const actionBtn = document.getElementById('actionBtn');
 const saveComments = () => {
     localStorage.setItem('comments', JSON.stringify(comments))
 }
-const renderComments = () => {
-    commentList.innerHTML = '';
+// const renderComments = () => {
+//     commentList.innerHTML = '';
 
-    comments.forEach(comment => commentList.appendChild(createCommentElement(comment)));
+//     comments.forEach(comment => commentList.appendChild(createCommentElement(comment)));
+// }
+
+function renderComments(parentId = null, container = commentList) {
+    container.innerHTML = '';
+
+    const filtered = comments.filter(c => c.parentComment === parentId);
+
+    filtered.forEach(comment => {
+        const li = createCommentElement(comment);
+        container.appendChild(li);
+
+        const childUl = document.createElement('ul');
+        li.appendChild(childUl);
+        renderComments(comment.id, childUl);
+    });
 }
+
 
 function createCommentElement(comment) {
     const li = document.createElement('li');
@@ -27,6 +43,7 @@ function createCommentElement(comment) {
     <div class="comment-actions">
     <button class="edit-btn">Редагувати</button>
     <button class="delete-btn">Видалити</button>
+    <button class="reply-btn">Відповісти</button>
     </div>`;
     return li;
 }
@@ -46,7 +63,10 @@ commentForm.addEventListener('submit', (e) => {
 
     comments.push(comment);
     saveComments();
-    commentList.appendChild(createCommentElement(comment));
+
+    replyToId = null;
+    actionBtn.textContent = 'Опублікувати коментар';
+    renderComments();
     commentForm.reset();
 })
 
@@ -75,18 +95,36 @@ commentList.addEventListener('click', (e) => {
         const saveBtn = document.createElement('button');
         saveBtn.textContent = '💾 Зберегти';
         saveBtn.className = 'save-edit-btn';
+        saveBtn.dataset.id = id;
 
         const cancelBtn = document.createElement('button');
         cancelBtn.textContent = '❌ Скасувати';
         cancelBtn.className = 'cancel-edit-btn';
+        cancelBtn.dataset.id = id;
 
         li.innerHTML = '';
         li.appendChild(textarea);
         li.appendChild(saveBtn);
         li.appendChild(cancelBtn);
+    }
 
-        comment.text = prompt('Редагуйте коментар:', comment.text);
-        saveComments();
+    if (e.target.classList.contains('save-edit-btn')) {
+        const comment = comments.find(c => c.id === e.target.dataset.id);
+        const newText = li.querySelector('.edit-area').value.trim();
+        if (newText) {
+            comment.text = newText;
+            saveComments();
+            renderComments();
+        }
+    } else if (e.target.classList.contains('cancel-edit-btn')) {
         renderComments();
     }
+
+    if (e.target.classList.contains('reply-btn')) {
+        const parentId = e.target.closest('li').dataset.id;
+        replyToId = parentId;
+        textInput.focus();
+        actionBtn.textContent = 'Відповісти';
+    }
+
 });

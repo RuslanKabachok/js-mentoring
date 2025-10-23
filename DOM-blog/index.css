@@ -101,3 +101,43 @@ button:hover {
 .comment-actions .delete-btn:hover {
   background-color: #e60000;
 }
+
+.edit-area { 
+  width: 97%; margin-bottom: 8px; 
+}
+
+.save-edit-btn{margin-right: 5px;}
+
+#commentList ul {
+  margin-left: 25px;
+  border-left: 2px solid #ddd;
+  padding-left: 15px;
+}
+
+#commentList li {
+  margin-top: 5px;
+  margin-bottom: 12px;
+  background: #f8f8f8;
+  border-radius: 8px;
+  padding: 10px;
+  list-style: none;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.comment-actions {
+  margin-top: 5px;
+}
+
+.reply-btn, .edit-btn, .delete-btn {
+  border: none;
+  background: none;
+  color: #0077cc;
+  cursor: pointer;
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.reply-btn:hover, .edit-btn:hover, .delete-btn:hover {
+  text-decoration: underline;
+  color: #005fa3;
+}
