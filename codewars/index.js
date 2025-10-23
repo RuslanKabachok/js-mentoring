@@ -215,3 +215,23 @@ const findShort = (str) => {
     const result = str.split(' ').map(w => w.length);
     return Math.min(...result);
 }
+
+const hero = (bullets, dragons) => {
+    return bullets >= dragons * 2;
+}
+
+const makeNegative = (num) => {
+    return num > 0 ? -num : num;
+}
+
+const correct = (str) => {
+    return str.replaceAll('5', 'S').replaceAll('0', 'O').replaceAll('1', 'I');
+}
+
+const isPalindrome = (str) => {
+    const normalized = str.toLowerCase();
+    const reversed = normalized.split('').reverse().join('');
+    return normalized === reversed;
+};
+
+const otherAngle = (a, b) => 180 - (a + b);
