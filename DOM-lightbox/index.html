@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM manipulation</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+
+<form id="imageForm">
+    <label for="img-link">Посилання на зображення: </label>
+    <input type="url" id="img-link"> 
+
+    <label for="img-description">Введіть опис зображення: </label>
+    <textarea id="img-description" rows="3" required></textarea>
+
+    <button type="submit">Додати зображення</button>
+</form>
+
+<div class="gallery"></div>
+
+<div class="lightbox hide">
+    <button id="prev">‹</button>
+    <button id="close">X</button>
+    <img id="lightboxImg" src="" alt="">
+    <p id="lightboxDesc"></p>
+    <button id="next">›</button>
+</div>
+
+    <script src="./index.js"></script>
+</body>
+</html>

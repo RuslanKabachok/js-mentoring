@@ -235,3 +235,33 @@ const isPalindrome = (str) => {
 };
 
 const otherAngle = (a, b) => 180 - (a + b);
+const getGrade = (s1, s2, s3) => {
+
+    const average = (s1 + s2 + s3) / 3;
+
+    if (average <= 100 && average >= 90) {
+        return 'A'
+    } else if (average < 90 && average >= 80) {
+        return 'B'
+    } else if (average < 80 && average >= 70) {
+        return 'C'
+    } else if (average < 70 && average >= 60) {
+        return 'D'
+    } else {
+        return 'F'
+    }
+}
+
+const strCount = (str, letter) => {
+    let alreadySeen = 0;
+
+    for (let i = 0; i < str.length; i++) {
+        const element = str[i];
+
+        if (element === letter) {
+            alreadySeen += 1;
+        }
+    }
+
+    return alreadySeen;
+}
