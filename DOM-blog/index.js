@@ -1,4 +1,4 @@
-let comments = JSON.parse(localStorage.getItem('comments')) || [];
+let comments = (() => { try { return JSON.parse(localStorage.getItem('comments')) || []; } catch { return []; } })();
 let replyToId = null;
 
 const commentForm = document.getElementById('commentForm');
@@ -11,27 +11,21 @@ const actionBtn = document.getElementById('actionBtn');
 const saveComments = () => {
     localStorage.setItem('comments', JSON.stringify(comments))
 }
-// const renderComments = () => {
-//     commentList.innerHTML = '';
-
-//     comments.forEach(comment => commentList.appendChild(createCommentElement(comment)));
-// }
 
 function renderComments(parentId = null, container = commentList) {
-    container.innerHTML = '';
-
+    const frag = document.createDocumentFragment();
     const filtered = comments.filter(c => c.parentComment === parentId);
 
     filtered.forEach(comment => {
         const li = createCommentElement(comment);
-        container.appendChild(li);
-
         const childUl = document.createElement('ul');
         li.appendChild(childUl);
+        frag.appendChild(li);
         renderComments(comment.id, childUl);
     });
-}
 
+    container.replaceChildren(frag);
+}
 
 function createCommentElement(comment) {
     const li = document.createElement('li');
@@ -52,6 +46,10 @@ renderComments();
 
 commentForm.addEventListener('submit', (e) => {
     e.preventDefault();
+
+    const author = authorInput.value.trim();
+    const text = textInput.value.trim();
+    if (!author || !text) return;
 
     const comment = {
         id: crypto.randomUUID(),
