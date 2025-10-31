@@ -265,3 +265,47 @@ const strCount = (str, letter) => {
 
     return alreadySeen;
 }
+
+const isValidWalk = (walk) => {
+    if (walk.length !== 10) return false;
+
+    let x = 0, y = 0;
+
+    walk.forEach(dir => {
+        if (dir === 'n') y++;
+        if (dir === 's') y--;
+        if (dir === 'e') x++;
+        if (dir === 'w') x--;
+    });
+
+    return x === 0 && y === 0;
+}
+
+const towerBuilder = (nFloors) => {
+    const tower = [];
+
+    for (let i = 1; i <= nFloors; i++) {
+
+        const spaces = nFloors - i;
+
+        const stars = 2 * i - 1;
+
+        const floor = ' '.repeat(spaces) + '*'.repeat(stars) + ' '.repeat(spaces);
+
+        tower.push(floor);
+    }
+
+    return tower;
+}
+
+const greet = () => 'hello world!';
+
+const twoSum = (numbers, target) => {
+    for (let i = 0; i < numbers.length; i++) {
+        for (let j = i + 1; j < numbers.length; j++) {
+            if (numbers[i] + numbers[j] === target) {
+                return [i, j]
+            }
+        }
+    }
+}
