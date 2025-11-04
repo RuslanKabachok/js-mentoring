@@ -1,16 +1,24 @@
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./service-worker.js')
+        .then(() => console.log('✅ Service Worker зареєстровано'))
+        .catch(err => console.warn('SW помилка:', err));
+}
+
 let map;
 let watchId;
 let userMarker;
 let currentAudioId = null;
 let currentAudio = null;
+let audioContext = new (window.AudioContext || window.webkitAudioContext)();
 const mapElement = document.getElementById('map');
+const networkStatus = document.getElementById('network-status');
 const locations = [
     {
         id: 'location_1',
         name: 'Софійський собор',
         coordinates: { lat: 50.4527, lng: 30.5147 },
         radius: 100,
-        audioUrl: '/audio/sophia.mp3',
+        audioUrl: './audio/sophia.mp3',
         description: 'Софійський собор - пам\'ятка архітектури XI століття',
         audioText: 'Ви підійшли до Софійського собору. Це пам\'ятка архітектури одинадцятого століття.'
     },
@@ -19,7 +27,7 @@ const locations = [
         name: 'Золоті ворота',
         coordinates: { lat: 50.4485, lng: 30.5134 },
         radius: 80,
-        audioUrl: '/audio/golden_gate.mp3',
+        audioUrl: './audio/golden_gate.mp3',
         description: 'Золоті ворота - пам\'ятка оборонної архітектури Київської Русі',
         audioText: 'Ви підійшли до Золотих воріт. Це пам\'ятка оборонної архітектури Київської Русі.'
     },
@@ -28,7 +36,7 @@ const locations = [
         name: 'Майдан Незалежності',
         coordinates: { lat: 50.4501, lng: 30.5234 },
         radius: 150,
-        audioUrl: '/audio/maidan.mp3',
+        audioUrl: './audio/maidan.mp3',
         description: 'Центральна площа Києва',
         audioText: 'Ви підійшли до Майдану Незалежності. Це центральна площа Києва.'
     },
@@ -37,7 +45,7 @@ const locations = [
         name: 'Андріївський узвіз',
         coordinates: { lat: 50.4580, lng: 30.5169 },
         radius: 100,
-        audioUrl: '/audio/andriyivsky.mp3',
+        audioUrl: './audio/andriyivsky.mp3',
         description: 'Історична вулиця Києва',
         audioText: 'Ви підійшли до Андріївського узвозу. Це історична вулиця Києва.',
     }
@@ -58,24 +66,54 @@ function getDistance(lat1, lng1, lat2, lng2) {
     return R * c;
 }
 
-function playAudio(location) {
+async function playAudio(location) {
     if (currentAudio) {
-        window.speechSynthesis.cancel();
+        currentAudio.stop();
+        currentAudio = null;
     }
 
-    const utterance = new SpeechSynthesisUtterance(location.audioText);
-    utterance.lang = 'uk-UA';
-    utterance.rate = 0.9;
+    const buffer = await loadAudioBuffer(location.audioUrl);
+    const source = audioContext.createBufferSource();
+    source.buffer = buffer;
 
-    window.speechSynthesis.speak(utterance);
+    const gainNode = audioContext.createGain();
+    gainNode.gain.setValueAtTime(1, audioContext.currentTime);
 
-    console.log(`🔊 Відтворюється аудіо для ${location.name}`);
+    source.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    source.start(0);
+
+    currentAudio = source;
     currentAudioId = location.id;
+
+    console.log(`🎧 Грає аудіо: ${location.name}`);
+
+    const PLAY_DURATION = 5;
+    const FADE_DURATION = 2;
+
+    const fadeStartTime = audioContext.currentTime + PLAY_DURATION - FADE_DURATION;
+    gainNode.gain.linearRampToValueAtTime(0, fadeStartTime + FADE_DURATION);
+
+    source.stop(audioContext.currentTime + PLAY_DURATION);
+
+    source.onended = () => {
+        console.log(`⏹️ Аудіо ${location.name} завершено`);
+        currentAudio = null;
+        currentAudioId = null;
+    };
 
     const infoText = document.getElementById('info-text');
     const infoPanel = document.getElementById('info-panel');
     infoPanel.classList.remove('inactive');
     infoText.textContent = `🔊 ${location.name}: ${location.description}`;
+}
+
+async function loadAudioBuffer(url) {
+    const response = await fetch(url);
+    const arrayBuffer = await response.arrayBuffer();
+    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+    return audioBuffer;
 }
 
 function stopAudio() {
@@ -152,7 +190,7 @@ function initMap() {
             (error) => {
                 console.warn("Помилка геолокації:", error.message);
 
-                const fallbackLocation = { lat: 50.4400, lng: 30.5100 };
+                const fallbackLocation = { lat: 59.4499, lng: 39.5166 };
                 checkLocationProximity(fallbackLocation);
                 map.setCenter(fallbackLocation);
 
@@ -188,3 +226,18 @@ const addLocationMarkers = () => {
         })
     })
 }
+
+function updateNetworkStatus() {
+    if (navigator.onLine) {
+        networkStatus.textContent = '🟢 Онлайн';
+        networkStatus.classList.remove('offline');
+    } else {
+        networkStatus.textContent = '🔴 Офлайн';
+        networkStatus.classList.add('offline');
+    }
+}
+
+updateNetworkStatus();
+
+window.addEventListener('online', updateNetworkStatus);
+window.addEventListener('offline', updateNetworkStatus);
