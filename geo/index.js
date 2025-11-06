@@ -1,3 +1,13 @@
+const config = {
+    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY
+};
+
+const script = document.createElement('script');
+script.src = `https://maps.googleapis.com/maps/api/js?key=${config.googleMapsApiKey}&callback=initMap`;
+script.async = true;
+script.defer = true;
+document.head.appendChild(script);
+
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./service-worker.js')
         .then(() => console.log('✅ Service Worker зареєстровано'))
@@ -110,14 +120,45 @@ async function playAudio(location) {
 }
 
 async function loadAudioBuffer(url) {
-    const response = await fetch(url);
-    const arrayBuffer = await response.arrayBuffer();
-    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-    return audioBuffer;
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(`HTTP помилка! статус: ${response.status}`);
+        }
+
+        const arrayBuffer = await response.arrayBuffer();
+
+        if (arrayBuffer.byteLength === 0) {
+            throw new Error('Отримано пустий arrayBuffer');
+        }
+
+        const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+
+        if (!audioBuffer) {
+            throw new Error('Не вдалося декодувати аудіо дані');
+        }
+
+        return audioBuffer;
+
+    } catch (error) {
+        console.error('Помилка завантаження аудіо буфера:', error);
+
+        if (error.name === 'TypeError') {
+            console.error('Мережева помилка або неправильний URL');
+        } else if (error.name === 'NotSupportedError') {
+            console.error('Браузер не підтримує цей аудіо формат');
+        }
+        return null;
+    }
 }
 
 function stopAudio() {
-    window.speechSynthesis.cancel();
+    if (currentAudio) {
+        currentAudio.stop();
+        currentAudio = null;
+    }
+
     console.log('⏹️ Аудіо зупинено');
     currentAudioId = null;
 
@@ -167,12 +208,10 @@ function initMap() {
         watchId = navigator.geolocation.watchPosition(
             (position) => {
 
-                // const userLocation = {
-                //     lat: position.coords.latitude,
-                //     lng: position.coords.longitude,
-                // };
-
-                const userLocation = { lat: 50.4501, lng: 30.5234 };
+                const userLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                };
 
                 if (userMarker) {
                     userMarker.setPosition(userLocation);
@@ -217,7 +256,7 @@ function initMap() {
     addLocationMarkers();
 }
 
-const addLocationMarkers = () => {
+function addLocationMarkers() {
     locations.forEach(location => {
         const marker = new google.maps.Marker({
             position: location.coordinates, title: location.name, map, icon: {
@@ -241,3 +280,5 @@ updateNetworkStatus();
 
 window.addEventListener('online', updateNetworkStatus);
 window.addEventListener('offline', updateNetworkStatus);
+
+export { initMap };
