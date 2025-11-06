@@ -7,12 +7,41 @@ const makeTextItalicBtn = document.getElementById('italicBtn');
 const deleteBtn = document.getElementById('deleteBtn');
 const editField = document.getElementById('editor');
 
-addPBtn.addEventListener('click', (e) => {
+const saved = loadContent();
+
+if (saved) editField.innerHTML = saved;
+
+
+function createElement(tagName) {
     if (!inputEl.value.trim()) return;
-
-    const p = document.createElement('p');
-    p.textContent = inputEl.value;
-    editField.appendChild(p);
-
+    const el = document.createElement(tagName);
+    el.textContent = inputEl.value;
+    editField.appendChild(el);
     inputEl.value = '';
-})
+    saveContent();
+}
+
+addPBtn.addEventListener('click', () => createElement('p'));
+addH1Btn.addEventListener('click', () => createElement('h1'));
+addH2Btn.addEventListener('click', () => createElement('h2'));
+
+editField.addEventListener('click', (e) => {
+    if (e.target === editField) return;
+
+    e.target.setAttribute('contenteditable', 'true');
+    e.target.focus();
+
+    e.target.addEventListener('blur', () => {
+        e.target.removeAttribute('contenteditable');
+        saveContent();
+    }, { once: true });
+});
+
+function saveContent() {
+    const content = editField.innerHTML;
+    localStorage.setItem('content', content);
+}
+
+function loadContent() {
+    return localStorage.getItem('content');
+}
