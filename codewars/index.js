@@ -309,3 +309,17 @@ const twoSum = (numbers, target) => {
         }
     }
 }
+
+const reverse = (n) => n.toString().split('').reverse().map(Number);
+
+function basicOp(operation, value1, value2) {
+    if (operation === '-') {
+        return value1 - value2;
+    } else if (operation === '+') {
+        return value1 + value2;
+    } else if (operation === '*') {
+        return value1 * value2
+    } else {
+        return value1 / value2
+    }
+}
