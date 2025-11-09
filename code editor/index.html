@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контент-редактор</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <main>
+        <h1>Контент-редактор</h1>
+
+        <section>
+            <div id="control-panel">
+                <div class="inputContainer">
+                    <label for="createInput">Введіть опис елемента:</label>
+                    <input type="text" id="createInput">
+                </div>
+                <div class="addBtnContainer">
+                    <button id="addPBtn">Додати параграф</button>
+                    <button id="addH1Btn">Додати заголовок</button>
+                    <button id="addH2Btn">Додати підзаголовок</button>
+                </div>
+                <div class="editBtnContainer">
+                    <button id="boldBtn" type="button">Зробити шрифт жирним</button>
+                    <button id="italicBtn" type="button">Зробити шрифт курсивом</button>
+                </div>
+                <div class="deleteBtnContainer">
+                    <button id="deleteBtn">Очистити</button>
+                </div>
+            </div>
+        </section>
+        <section id="workspace">
+            <h2>Ваш контент</h2>
+            <div id="editor"></div>
+        </section>
+    </main>
+    <script type="module" src="./index.js"></script>
+</body>
+</html>
