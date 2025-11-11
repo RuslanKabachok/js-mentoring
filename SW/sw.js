@@ -1,5 +1,9 @@
 const CACHE_NAME = 'dynamic-cache-v1';
 
+let cacheResponse = 0;
+let fetchResponse = 0;
+let totalResponse = 0;
+
 self.addEventListener('install', (event) => {
     console.log('Service Worker: встановлено');
     self.skipWaiting();
@@ -30,6 +34,7 @@ async function handleStaleWhileRevalidate(request) {
             if (networkResponse && networkResponse.status === 200) {
                 cache.put(request, networkResponse.clone());
                 console.log('♻️ Кеш оновлено:', request.url);
+                fetchResponse += 1;
             }
             return networkResponse;
         })
@@ -38,7 +43,13 @@ async function handleStaleWhileRevalidate(request) {
             throw error;
         });
 
-    if (cachedResponse) { console.log('✅ Відповідь з кешу:', request.url); }
+    if (cachedResponse) {
+        console.log('✅ Відповідь з кешу:', request.url);
+        cacheResponse += 1;
+        totalResponse += 1;
+    } else {
+        totalResponse += 1;
+    }
 
     return cachedResponse || fetchPromise;
 }
@@ -59,3 +70,22 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(handleStaleWhileRevalidate(event.request));
 });
 
+self.addEventListener('message', async (event) => {
+    if (event.data.action === 'showCache') {
+        const cache = await caches.open(CACHE_NAME);
+        const keys = await cache.keys();
+        const urls = keys.map(req => req.url)
+        event.source.postMessage({ type: 'cacheList', data: urls });
+    }
+
+    if (event.data.action === 'clearCache') {
+        await caches.delete(CACHE_NAME);
+        await caches.open(CACHE_NAME);
+        event.source.postMessage({ type: 'cacheCleared' });
+    }
+
+    if (event.data.action === 'getStats') {
+        const result = (cacheResponse / totalResponse) * 100;
+        event.source.postMessage({ type: 'statsData', count: result });
+    }
+})

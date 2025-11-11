@@ -14,3 +14,31 @@ document.getElementById('fetchBtn').addEventListener('click', async () => {
         output.textContent = 'Помилка запиту: ' + err.message;
     }
 });
+
+document.getElementById('showCache').addEventListener('click', () => {
+    if (!navigator.serviceWorker.controller) {
+        alert('Service Worker ще не активний. Перезавантажте сторінку.');
+        return;
+    }
+    navigator.serviceWorker.controller.postMessage({ action: 'showCache' });
+});
+
+document.getElementById('clearCache').addEventListener('click', () => {
+    if (!navigator.serviceWorker.controller) {
+        alert('Service Worker ще не активний. Перезавантажте сторінку.');
+        return;
+    }
+    navigator.serviceWorker.controller.postMessage({ action: 'clearCache' });
+});
+
+navigator.serviceWorker.addEventListener('message', (event) => {
+    const output = document.getElementById('cacheOutput');
+
+    if (event.data.type === 'cacheList') {
+        output.textContent = event.data.data.join('\n');
+    }
+
+    if (event.data.type === 'cacheCleared') {
+        output.textContent = 'Кеш очищено';
+    }
+})
