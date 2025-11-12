@@ -1,8 +1,8 @@
 const CACHE_NAME = 'dynamic-cache-v1';
 
 let cacheResponse = 0;
-let fetchResponse = 0;
 let totalResponse = 0;
+let cacheMisses = 0;
 
 self.addEventListener('install', (event) => {
     console.log('Service Worker: встановлено');
@@ -34,7 +34,6 @@ async function handleStaleWhileRevalidate(request) {
             if (networkResponse && networkResponse.status === 200) {
                 cache.put(request, networkResponse.clone());
                 console.log('♻️ Кеш оновлено:', request.url);
-                fetchResponse += 1;
             }
             return networkResponse;
         })
@@ -43,12 +42,13 @@ async function handleStaleWhileRevalidate(request) {
             throw error;
         });
 
+    totalResponse += 1;
+
     if (cachedResponse) {
         console.log('✅ Відповідь з кешу:', request.url);
         cacheResponse += 1;
-        totalResponse += 1;
     } else {
-        totalResponse += 1;
+        cacheMisses += 1;
     }
 
     return cachedResponse || fetchPromise;
@@ -85,7 +85,17 @@ self.addEventListener('message', async (event) => {
     }
 
     if (event.data.action === 'getStats') {
-        const result = (cacheResponse / totalResponse) * 100;
-        event.source.postMessage({ type: 'statsData', count: result });
+        const cacheStats = totalResponse > 0
+            ? (cacheResponse / totalResponse) * 100
+            : 0;
+        event.source.postMessage({ type: 'statsData', cacheResponse, totalResponse, cacheStats, cacheMisses });
+    }
+
+    if (event.data.action === 'resetStats') {
+        cacheResponse = 0;
+        cacheMisses = 0;
+        totalResponse = 0;
+
+        event.source.postMessage({ type: 'statsReset' });
     }
 })
