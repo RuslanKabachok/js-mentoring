@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service worker</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <main>
+        <h1>Service worker</h1>
+        <button id="fetchBtn">Get data</button>
+
+        <pre id="output"></pre>
+
+
+        <div id="cacheControls">
+            <button id="showCache">Показати кеш</button>
+            <button id="clearCache">Очистити кеш</button>
+            <pre id="cacheOutput"></pre>
+        </div>
+
+        <div id="cacheStats">
+            <button id="showStats">Показати статистику</button>
+            <button id="clearStats">Очистити статистику</button>
+            <p id="cacheCountOutput"></p>
+            <p id="fetchOutput"></p>
+            <p id="totalOutput"></p>
+            <p id="hitRateOutput"></p>
+        </div>
+    </main>
+
+    <script src="./index.js"></script>
+</body>
+</html>
