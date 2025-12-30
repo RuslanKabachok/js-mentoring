@@ -323,3 +323,66 @@ function basicOp(operation, value1, value2) {
         return value1 / value2
     }
 }
+
+//Write a function argumentsLength that returns the count of arguments passed to it.
+
+// var argumentsLength = function (...args) { return args.length; };
+
+const argumentsLength = (...args) => args.length
+
+
+// Given a function fn, return a new function that is identical to the original function except that it ensures fn is called at most once.
+
+// The first time the returned function is called, it should return the same result as fn.
+// Every subsequent time it is called, it should return undefined.
+
+const once = function (fn) {
+    let calledAlready = false;
+
+    return function (...args) {
+        if (calledAlready) {
+            return undefined;
+        }
+        calledAlready = true;
+        return fn(...args);
+    }
+}
+
+function deleteNth(arr, n) {
+    let result = [];
+    let count = {}
+
+    for (let i = 0; i < arr.length; i++) {
+        if (!count[arr[i]]) {
+            count[arr[i]] = 0;
+        }
+
+        if (count[arr[i]] < n) {
+            result.push(arr[i]);
+            count[arr[i]]++;
+        }
+    }
+
+    return result;
+}
+
+function enough(cap, on, wait) {
+    if (cap - on > wait) {
+        return 0;
+    }
+    return wait - (cap - on);
+}
+
+function enough(cap, on, wait) {
+    return cap - on < wait ? wait - (cap - on) : 0;
+}
+
+const countSheep = (num) => {
+    let str = ''
+
+    for (let i = 1; i <= num; i++) {
+        str += `${i} sheep...`
+    }
+
+    return str;
+}
