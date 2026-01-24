@@ -386,3 +386,18 @@ const countSheep = (num) => {
 
     return str;
 }
+
+function memoize(fn) {
+    const result = {}
+
+    return function (...args) {
+        const key = JSON.stringify(args);
+        if (result[key] === undefined) {
+            result[key] = fn(...args)
+        }
+        return result[key];
+    }
+}
+var addTwoPromises = async function (promise1, promise2) {
+    return Promise.all([promise1, promise2]).then(nums => nums.reduce((a, b) => a + b, 0))
+};
