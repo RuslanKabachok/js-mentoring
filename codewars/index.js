@@ -446,3 +446,18 @@ const timeLimit = (fn, t) => {
         return Promise.race([promise1, promise2]);
     }
 };
+
+
+const sumInLoop = (arr1, arr2) => {
+    let result = [];
+
+    for (let i = 0; i < arr1.length; i++) {
+        result.push(arr1[i] + arr2[i]);
+    };
+
+    return result.join(' ');
+}
+
+function scaleImage(size, scale) {
+    return size.split('x').map(n => n * scale).join('x');
+}
