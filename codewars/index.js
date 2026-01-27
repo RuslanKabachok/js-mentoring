@@ -402,6 +402,31 @@ var addTwoPromises = async function (promise1, promise2) {
     return Promise.all([promise1, promise2]).then(nums => nums.reduce((a, b) => a + b, 0))
 };
 
+const arrDiff = (a, b) => {
+    let result = []
+
+    for (let i = 0; i < a.length; i++) {
+        if (!b.includes(a[i])) {
+            result.push(a[i])
+        }
+    }
+
+    return result
+}
+
+const checkForFactor = (base, factor) => (base % factor === 0);
+
+const findUniq = (arr) => {
+    let result = arr.sort((a, b) => b - a)
+
+    if (result[0] !== result[1]) {
+        return result[0];
+    } else {
+        return result[result.length - 1]
+    }
+}
+
+const zeroFuel = (distanceToPump, mpg, fuelLeft) => distanceToPump <= mpg * fuelLeft;
 
 var createCounter = function (n) {
     return function () {
