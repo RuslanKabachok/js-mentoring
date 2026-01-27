@@ -401,3 +401,63 @@ function memoize(fn) {
 var addTwoPromises = async function (promise1, promise2) {
     return Promise.all([promise1, promise2]).then(nums => nums.reduce((a, b) => a + b, 0))
 };
+
+
+var createCounter = function (n) {
+    return function () {
+        return n++
+    };
+};
+
+async function sleep(millis) {
+    return new Promise((resolve) => {
+        setTimeout(() => { resolve() }, millis)
+    })
+}
+
+const cancelable = (fn, args, t) => {
+    const primaryTimer = setTimeout(() => {
+        fn(...args)
+    }, t);
+
+    return () => { clearTimeout(primaryTimer) }
+}
+
+const cancelable2 = (fn, args, t) => {
+    fn(...args)
+
+    const primaryTimer = setInterval(() => {
+        fn(...args)
+    }, t);
+
+    const cancelFn = () => { clearInterval(primaryTimer) }
+
+    return cancelFn
+}
+
+const timeLimit = (fn, t) => {
+
+    return async function (...args) {
+        const promise1 = new Promise((res) => { return res(fn(...args)) })
+        const promise2 = new Promise((res, rej) => {
+            setTimeout(() => { rej('Time Limit Exceeded') }, t)
+        })
+
+        return Promise.race([promise1, promise2]);
+    }
+};
+
+
+const sumInLoop = (arr1, arr2) => {
+    let result = [];
+
+    for (let i = 0; i < arr1.length; i++) {
+        result.push(arr1[i] + arr2[i]);
+    };
+
+    return result.join(' ');
+}
+
+function scaleImage(size, scale) {
+    return size.split('x').map(n => n * scale).join('x');
+}
