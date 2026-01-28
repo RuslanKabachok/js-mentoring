@@ -514,5 +514,52 @@ const friend = (friends) => {
     return result
 }
 
-
 // const friend = friends => friends.filter(friend => friend.length == 4);
+
+String.prototype.toAlternatingCase = function () {
+    let result = []
+    let arrayOfChars = this.split('')
+
+    for (let i = 0; i < arrayOfChars.length; i++) {
+        const letter = arrayOfChars[i];
+
+        if (letter === letter.toUpperCase()) {
+            result.push(letter.toLowerCase())
+        } else { result.push(letter.toUpperCase()) }
+    }
+
+    return result.join('')
+}
+
+const updateLight = (current) => {
+    switch (current) {
+        case 'green':
+            return 'yellow';
+            break;
+        case 'red':
+            return 'green';
+            break;
+        case 'yellow':
+            return 'red';
+            break;
+        default:
+            return 'yellow'
+    }
+}
+
+const disemvowel = (str) => {
+    const vowels = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+    const result = [...str];
+    const newStr = []
+
+    for (let i = 0; i < result.length; i++) {
+        const element = result[i];
+
+        if (!vowels.includes(element)) {
+            newStr.push(element);
+        }
+    }
+
+    return newStr.join('');
+}
+
