@@ -486,3 +486,80 @@ const sumInLoop = (arr1, arr2) => {
 function scaleImage(size, scale) {
     return size.split('x').map(n => n * scale).join('x');
 }
+
+const squareSum = (numbers) => numbers.map(n => { n ** 2 }).reduce((acc, curr) => { acc + curr }, 0)
+
+const solution = (str) => str.split('').reverse().join('')
+
+const sum = (numbers) => { numbers.length ? numbers.reduce((acc, curr) => acc + curr, 0) : 0 }
+
+const squareDigits = (num) => {
+    const result = num.toString().split('').map(n => Number(n ** 2)).join('')
+
+    return +result
+};
+
+
+const friend = (friends) => {
+    let result = []
+
+    for (let i = 0; i < friends.length; i++) {
+        const element = friends[i];
+
+        if (element.length === 4) {
+            result.push(element);
+        }
+    }
+
+    return result
+}
+
+// const friend = friends => friends.filter(friend => friend.length == 4);
+
+String.prototype.toAlternatingCase = function () {
+    let result = []
+    let arrayOfChars = this.split('')
+
+    for (let i = 0; i < arrayOfChars.length; i++) {
+        const letter = arrayOfChars[i];
+
+        if (letter === letter.toUpperCase()) {
+            result.push(letter.toLowerCase())
+        } else { result.push(letter.toUpperCase()) }
+    }
+
+    return result.join('')
+}
+
+const updateLight = (current) => {
+    switch (current) {
+        case 'green':
+            return 'yellow';
+            break;
+        case 'red':
+            return 'green';
+            break;
+        case 'yellow':
+            return 'red';
+            break;
+        default:
+            return 'yellow'
+    }
+}
+
+const disemvowel = (str) => {
+    const vowels = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+    const result = [...str];
+    const newStr = []
+
+    for (let i = 0; i < result.length; i++) {
+        const element = result[i];
+
+        if (!vowels.includes(element)) {
+            newStr.push(element);
+        }
+    }
+
+    return newStr.join('');
+}
+
