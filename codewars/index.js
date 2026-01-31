@@ -626,4 +626,51 @@ const uniqueInOrder = (iterable) => {
     return result
 }
 
-console.log(uniqueInOrder('ABCDAB'))
+const getAge = (str) => Number(str[0])
+
+const between = (a, b) => {
+    let result = []
+    for (let i = a; i >= a && i <= b; i++) {
+        result.push(i)
+    }
+    return result
+}
+
+function repeatStr(n, s) {
+    let str = ''
+    for (let i = 0; i < n; i++) {
+        str += s
+    }
+    return str
+}
+
+function repeatStr2(n, s) {
+    return s.repeat(n)
+}
+
+const areaOrPerimeter = (l, w) => l === w ? l * w : (l + w) * 2;
+
+function areYouPlayingBanjo(name) {
+    if (name[0] === 'R' || name[0] === 'r') { return `${name} plays banjo` }
+    else { return `${name} does not play banjo` }
+}
+
+const stringToNumber = (str) => +str
+
+const highAndLow = (numbers) => `${Math.max(...numbers.split(' '))} ${Math.min(...numbers.split(' '))}`
+
+const move = (position, roll) => roll * 2 + position
+
+const numberToString = (num) => String(num)
+
+const number = (array) => {
+    let result = []
+
+    if (!array) []
+
+    for (let i = 1; i <= array.length; i++) {
+        result.push(`${i}: ${array[i - 1]}`)
+    }
+
+    return result
+}
