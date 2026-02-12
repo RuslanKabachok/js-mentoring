@@ -563,3 +563,38 @@ const disemvowel = (str) => {
     return newStr.join('');
 }
 
+const minMax = (arr) => [Math.min(...arr), Math.max(...arr)]
+
+const getDivisorsCnt = (n) => {
+    let result = 0
+    const sqrt = Math.sqrt(n);
+
+    for (let i = 1; i <= sqrt; i++) {
+        if (n % i === 0) {
+            result += (i === sqrt) ? 1 : 2
+        }
+    }
+
+    return result
+}
+
+const booleanToString = (b) => b.toString()
+
+const getSum = (a, b) => {
+    let result = 0
+
+    if (a < b) {
+        for (let i = a; i <= b; i++) {
+
+            result += i
+        }
+    } else {
+        for (let i = b; i <= a; i++) {
+
+            result += i
+        }
+    }
+
+
+    return result
+}
