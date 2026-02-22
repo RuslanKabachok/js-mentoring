@@ -674,3 +674,23 @@ const number = (array) => {
 
     return result
 }
+
+String.prototype.isUpperCase = function () {
+    for (const char of this) {
+        if (char !== char.toUpperCase()) { return false }
+    }
+    return true
+}
+
+const reverseList = arr => arr.reverse()
+
+const accum = (str) => {
+    let result = []
+
+    for (let i = 0; i < str.length; i++) {
+        const element = str[i];
+        result.push(element.toUpperCase() + element.toLowerCase().repeat(i))
+    }
+
+    return result.join('-')
+}
