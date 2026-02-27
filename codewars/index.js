@@ -563,3 +563,134 @@ const disemvowel = (str) => {
     return newStr.join('');
 }
 
+const longest = (s1, s2) => {
+    let unitedStr = [...s1, ...s2]
+    let alreadyInArray = []
+
+    for (let i = 0; i < unitedStr.length; i++) {
+        const element = unitedStr[i];
+
+        if (!alreadyInArray.includes(element)) {
+            alreadyInArray.push(element)
+        }
+    }
+
+    return alreadyInArray.sort().join('');
+}
+
+// const longest2 = (s1, s2) => [...new Set(s1 + s2)].sort().join('');
+
+const abbrevName = (name) => `${name.split(' ')[0].charAt(0).toUpperCase()}.${name.split(' ')[1].charAt(0).toUpperCase()}`
+
+const countOccur = (str) => {
+    let result = {}
+
+    for (let i = 0; i < str.length; i++) {
+        const element = str[i];
+
+        if (!Object.keys(result).includes(element)) {
+            result[element] = 1;
+        } else {
+            result[element] += 1;
+        }
+    }
+
+    return result;
+}
+
+const duplicateCount = (text) => {
+    let obj = {}
+
+    for (let i = 0; i < text.length; i++) {
+        const element = text[i].toLowerCase();
+        if (!Object.keys(obj).includes(element)) {
+            obj[element] = 1;
+        } else {
+            obj[element] += 1;
+        }
+    }
+    const result = Object.values(obj).filter((num) => num >= 2);
+
+    return result.length
+}
+
+const uniqueInOrder = (iterable) => {
+    let result = []
+
+    for (let i = 0; i < iterable.length; i++) {
+
+        if (iterable[i] !== iterable[i + 1]) {
+            result.push(iterable[i])
+        }
+    }
+    return result
+}
+
+const getAge = (str) => Number(str[0])
+
+const between = (a, b) => {
+    let result = []
+    for (let i = a; i >= a && i <= b; i++) {
+        result.push(i)
+    }
+    return result
+}
+
+function repeatStr(n, s) {
+    let str = ''
+    for (let i = 0; i < n; i++) {
+        str += s
+    }
+    return str
+}
+
+function repeatStr2(n, s) {
+    return s.repeat(n)
+}
+
+const areaOrPerimeter = (l, w) => l === w ? l * w : (l + w) * 2;
+
+function areYouPlayingBanjo(name) {
+    if (name[0] === 'R' || name[0] === 'r') { return `${name} plays banjo` }
+    else { return `${name} does not play banjo` }
+}
+
+const stringToNumber = (str) => +str
+
+const highAndLow = (numbers) => `${Math.max(...numbers.split(' '))} ${Math.min(...numbers.split(' '))}`
+
+const move = (position, roll) => roll * 2 + position
+
+const numberToString = (num) => String(num)
+
+const number = (array) => {
+    let result = []
+
+    if (!array) []
+
+    for (let i = 1; i <= array.length; i++) {
+        result.push(`${i}: ${array[i - 1]}`)
+    }
+
+    return result
+}
+
+String.prototype.isUpperCase = function () {
+    for (const char of this) {
+        if (char !== char.toUpperCase()) { return false }
+    }
+    return true
+}
+
+const reverseList = arr => arr.reverse()
+
+const accum = (str) => {
+    let result = []
+
+    for (let i = 0; i < str.length; i++) {
+        const element = str[i];
+        result.push(element.toUpperCase() + element.toLowerCase().repeat(i))
+    }
+
+    return result.join('-')
+}
